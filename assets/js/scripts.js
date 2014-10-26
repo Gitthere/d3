@@ -1,4 +1,4 @@
-var data = 
+
 
 d3.csv("data/PlayerData.csv")
     .row(function(d) { 
@@ -17,16 +17,56 @@ d3.csv("data/PlayerData.csv")
 //then set up filter by position
 function main (error, players) {
 
+  //sets length/height for bars
   var width = 20;
       barHeight = 500;
 
+  //sets limits for vertical(y) bar graphs
   var y = d3.scale.linear()
-      .domain([0, d3.max(players.map(function(player){
-        return player.fantasyPoints;
+      //input values are capped at the largest data value
+      .domain([0, d3.max(players.map(function(players){
+        console.log(players.fantasyPoints);
+        return players.fantasyPoints;
         })
       )])
-      .range;
-  console.log(players);   
+      //output values will be the height
+      .range([0, barHeight]);
+  console.log(players);  
+
+  //assigns size of entire graph
+  var chart = d3.select(".chart")
+    //width will be
+    .attr("width", width * players.length)
+    //height will be 500
+    .attr("height", barHeight);
+
+  //generating group(g) elements (bars) in chart
+  var bar = chart.selectAll("g")
+    .data(players)
+  //adding new g elements via .enter
+  .enter().append("g")
+  //determines how much over and down to push the next g
+  .attr("transform", function(d, i) {
+    return "translate(0, " + i * width + ")";
+  });
+
+  //appends rectangle with corresponding width and height`y``
+  bar.append("rect")
+    //will make width 1 unit shorter than amt allowed
+    // for width for border
+    .attr("width", width -1)
+    .attr("height", y);
+
+  //appends text values
+  bar.append("text")
+    //size of text will be 1/2 of bar width
+    .attr("x", width / 2)
+    //will place text 3 units below end of height so able to see entire text
+    .attr("y", function(d) { console.log(d); return y(d.fantasyPoints) - 3; })
+    //dy offset used to center text horizontally
+    .attr("dy", ".35em")
+    //returns text from data array
+    .text(function(d,i) {return d.fantasyPoints; });
 }
 
 
