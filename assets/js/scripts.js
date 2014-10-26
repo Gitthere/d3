@@ -36,16 +36,18 @@
 var data = [4, 8, 15, 16, 23, 42];
 
 d3.csv("data/PlayerData.csv")
-    .row(function(d) { return {position: d.Pos,
-                               playerName:  d.FirstName + " " + d.LastName, 
-                               team: d.Team,  
-                               passCompletions: d.PassCmps,
-                               passYards: d.PassYards,
-                               passTdLessThan10: d.Pass_TD1,
-                               passTdLessThan20: d.Pass_TD10,
-                               passTdLessThan30: d.Pass_TD20
-
-                             }; })
+    .row(function(d) { 
+      var obj = {};
+      obj.playerName = d.firstName + " " + d.lastName;
+      //iterates over all properties in d
+      for(var prop in d) {
+        //[] takes value of variable and fills the empty object
+        //dereferences object by string value stored in [prop]
+        //obj.PlayerID =  d.PlayerID for every property
+        obj[prop] = d[prop];
+      }
+      return obj;
+    })
     .get(function(error, rows) { console.log(rows); });
 //then set up filter by position
 
