@@ -46,6 +46,7 @@ function main (error, players) {
     .data(players)
   //adding new g elements via .enter
   .enter().append("g")
+    .filter(function(d) {return y(d.fantasyPoints) > 0; })
   //determines how much over and down to push the next g
     .attr("transform", function(d, i) {
       return "translate(" + i * width + ", " + (height - y(d.fantasyPoints)) + ")";
@@ -67,6 +68,8 @@ function main (error, players) {
 
   //appends text values
   bar.append("text")
+    //filter out 0 values
+    .filter(function(d) {return y(d.fantasyPoints) > 0; })
     //size of text will be 1/2 of bar width
     .attr("x", width / 12)
     //will place text 3 units below end of height so able to see entire text
@@ -78,6 +81,8 @@ function main (error, players) {
 
   //appends text values
   bar.append("text")
+    //filter out 0 values
+    .filter(function(d) {return y(d.fantasyPoints) > 0; })
     //size of text will be 1/2 of bar width
     .attr("x", width / 12)
     //will place text 3 units below end of height so able to see entire text
