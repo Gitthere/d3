@@ -26,8 +26,8 @@ function main (error, players) {
       //input values are capped at the largest data value
       //.map will cycle through each player's point total
       .domain([0, d3.max(players.map(function(players){
-        console.log(parseInt(players.fantasyPoints));
-        return (parseInt(players.fantasyPoints));
+        console.log(d3.round(parseInt(players.fantasyPoints)));
+        return (d3.round(parseInt(players.fantasyPoints)));
         })
       )])
       //output values will be the height
@@ -46,7 +46,7 @@ function main (error, players) {
     .data(players)
   //adding new g elements via .enter
   .enter().append("g")
-    .filter(function(d) {return y(d.fantasyPoints) > 0; })
+    .filter(function(d) {return (d3.round(y(d.fantasyPoints))) > 0; })
   //determines how much over and down to push the next g
     .attr("transform", function(d, i) {
       return "translate(" + i * width + ", " + (height - y(d.fantasyPoints)) + ")";
@@ -69,7 +69,7 @@ function main (error, players) {
   //appends text values
   bar.append("text")
     //filter out 0 values
-    .filter(function(d) {return y(d.fantasyPoints) > 0; })
+    .filter(function(d) {return (d3.round(y(d.fantasyPoints))) > 0; })
     //size of text will be 1/2 of bar width
     .attr("x", width / 12)
     //will place text 3 units below end of height so able to see entire text
@@ -77,12 +77,12 @@ function main (error, players) {
     //dy offset used to center text horizontally
     .attr("dy", ".35em")
     //returns text from data array //should be .playerName and points?
-    .text(function(d,i) { return y(d.fantasyPoints); });
+    .text(function(d,i) { return (d3.round(y(d.fantasyPoints))); });
 
   //appends text values
   bar.append("text")
     //filter out 0 values
-    .filter(function(d) {return y(d.fantasyPoints) > 0; })
+    .filter(function(d) {return (d3.round(y(d.fantasyPoints))) > 0; })
     //size of text will be 1/2 of bar width
     .attr("x", width / 12)
     //will place text 3 units below end of height so able to see entire text
