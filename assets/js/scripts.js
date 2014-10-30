@@ -74,8 +74,18 @@ function main (error, players) {
     //dy offset used to center text horizontally
     .attr("dy", ".35em")
     //returns text from data array //should be .playerName and points?
-    .text(function(d,i) { return y(d.fantasyPoints) + "<br/>" + d.playerName; });
-    //try .html instead of .text
+    .text(function(d,i) { return y(d.fantasyPoints); });
+
+  //appends text values
+  bar.append("text")
+    //size of text will be 1/2 of bar width
+    .attr("x", width / 12)
+    //will place text 3 units below end of height so able to see entire text
+    .attr("y", function(d,i) { return y(d.fantasyPoints) + 10; })
+    //dy offset used to center text horizontally
+    .attr("dy", ".35em")
+    //returns text from data array //should be .playerName and points?
+    .text(function(d,i) { return d.playerName; });
 }
 
 
