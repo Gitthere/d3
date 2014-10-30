@@ -18,8 +18,8 @@ d3.csv("data/PlayerData.csv")
 function main (error, players) {
 
   //sets length/height for bars
-  var width = 20;
-      height = 500;
+  var width = 60;
+      height = 800;
 
   //sets limits for vertical(y) bar graphs
   var y = d3.scale.linear()
@@ -68,13 +68,14 @@ function main (error, players) {
   //appends text values
   bar.append("text")
     //size of text will be 1/2 of bar width
-    .attr("x", width / 2)
+    .attr("x", width / 12)
     //will place text 3 units below end of height so able to see entire text
-    .attr("y", function(d,i) { console.log(d); return y(d.fantasyPoints) - 3; })
+    .attr("y", function(d,i) { console.log(d); return y(d.fantasyPoints) - 5; })
     //dy offset used to center text horizontally
     .attr("dy", ".35em")
-    //returns text from data array
-    .text(function(d,i) {return d.fantasyPoints[i]; });
+    //returns text from data array //should be .playerName and points?
+    .text(function(d,i) { return y(d.fantasyPoints) + "<br/>" + d.playerName; });
+    //try .html instead of .text
 }
 
 
