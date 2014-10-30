@@ -48,7 +48,7 @@ function main (error, players) {
   .enter().append("g")
   //determines how much over and down to push the next g
     .attr("transform", function(d, i) {
-      return "translate(" + i * width + ", 0)";
+      return "translate(" + i * width + ", " + (height - y(d.fantasyPoints)) + ")";
     });
 
   //appends rectangle with corresponding width and height`y``
@@ -70,7 +70,7 @@ function main (error, players) {
     //size of text will be 1/2 of bar width
     .attr("x", width / 12)
     //will place text 3 units below end of height so able to see entire text
-    .attr("y", function(d,i) { console.log(d); return y(d.fantasyPoints) - 5; })
+    .attr("y", function(d,i) { console.log(d); return 5; })
     //dy offset used to center text horizontally
     .attr("dy", ".35em")
     //returns text from data array //should be .playerName and points?
@@ -81,7 +81,7 @@ function main (error, players) {
     //size of text will be 1/2 of bar width
     .attr("x", width / 12)
     //will place text 3 units below end of height so able to see entire text
-    .attr("y", function(d,i) { return y(d.fantasyPoints) + 10; })
+    .attr("y", function(d,i) { return - 10; })
     //dy offset used to center text horizontally
     .attr("dy", ".35em")
     //returns text from data array //should be .playerName and points?
