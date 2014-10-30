@@ -71,9 +71,10 @@ function main (error, players) {
     //filter out 0 values
     .filter(function(d) {return (d3.round(y(d.fantasyPoints))) > 0; })
     //size of text will be 1/2 of bar width
-    .attr("x", width / 12)
+    .attr("x", (width / 12) - 10)
+    .style("text-anchor", "end")
     //will place text 3 units below end of height so able to see entire text
-    .attr("y", function(d,i) { console.log(d); return 30; })
+    .attr("y", function(d,i) { console.log(d); return 20; })
     //dy offset used to center text horizontally
     .attr("dy", ".35em")
     //returns text from data array //should be .playerName and points?
@@ -85,9 +86,10 @@ function main (error, players) {
     //filter out 0 values
     .filter(function(d) {return (d3.round(y(d.fantasyPoints))) > 0; })
     //size of text will be 1/2 of bar width
-    .attr("x", (width / 12) )
+    .attr("x", (width / 12) - 10)
+    .style("text-anchor", "end")
     //will place text 3 units below end of height so able to see entire text
-    .attr("y", function(d,i) { return 40; })
+    .attr("y", function(d,i) { return 35; })
     //dy offset used to center text horizontally
     .attr("dy", ".35em")
     //returns text from data array //should be .playerName and points?
