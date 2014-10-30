@@ -73,24 +73,26 @@ function main (error, players) {
     //size of text will be 1/2 of bar width
     .attr("x", width / 12)
     //will place text 3 units below end of height so able to see entire text
-    .attr("y", function(d,i) { console.log(d); return 5; })
+    .attr("y", function(d,i) { console.log(d); return 30; })
     //dy offset used to center text horizontally
     .attr("dy", ".35em")
     //returns text from data array //should be .playerName and points?
-    .text(function(d,i) { return (d3.round(y(d.fantasyPoints))); });
+    .text(function(d,i) { return (d3.round(y(d.fantasyPoints))); })
+    .attr("transform", function(d) { return "rotate(-90)";});
 
   //appends text values
   bar.append("text")
     //filter out 0 values
     .filter(function(d) {return (d3.round(y(d.fantasyPoints))) > 0; })
     //size of text will be 1/2 of bar width
-    .attr("x", width / 12)
+    .attr("x", (width / 12) )
     //will place text 3 units below end of height so able to see entire text
-    .attr("y", function(d,i) { return - 10; })
+    .attr("y", function(d,i) { return 40; })
     //dy offset used to center text horizontally
     .attr("dy", ".35em")
     //returns text from data array //should be .playerName and points?
-    .text(function(d,i) { return d.playerName; });
+    .text(function(d,i) { return d.playerName; })
+    .attr("transform", function(d) { return "rotate(-90)";});
 }
 
 
