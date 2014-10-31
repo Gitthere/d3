@@ -21,18 +21,23 @@ function main (error, players) {
   var width = 60;
       height = 800;
 
+  var x = d3.scale.linear()
+      .domain([0, d3.max(players)])
+      .range([0, width]);
+
+
   //sets limits for vertical(y) bar graphs
   var y = d3.scale.linear()
       //input values are capped at the largest data value
       //.map will cycle through each player's point total
       .domain([0, d3.max(players.map(function(players){
-        console.log(d3.round(parseInt(players.fantasyPoints)));
+        // console.log(d3.round(parseInt(players.fantasyPoints)));
         return (d3.round(parseInt(players.fantasyPoints)));
         })
       )])
       //output values will be the height
       .range([0, height]);
-  console.log(players);  
+  // console.log(players);  
 
   //assigns size of entire graph
   var chart = d3.select(".chart")
@@ -58,7 +63,7 @@ function main (error, players) {
     // for width for border
     .attr("width", width -1)
     .attr("height", function(d,i) { 
-      console.log(y(d.fantasyPoints));
+      // console.log(y(d.fantasyPoints));
       if (y(d.fantasyPoints) <= 0) {
         return 0;
       } else { 
@@ -95,7 +100,7 @@ function main (error, players) {
     //dy offset used to center text horizontally
     .attr("dy", ".35em")
     //returns text from data array //should be .playerName and points?
-    .text(function(d,i) { return (d3.round(y(d.fantasyPoints))); })
+    .text(function(d,i) { return (d3.round(d.fantasyPoints)); })
     .attr("transform", function(d) { return "rotate(-90)";});
 
   //appends text name values
@@ -127,8 +132,40 @@ function main (error, players) {
     //returns text from data array //should be .playerName and points?
     .text(function(d,i) { return d.playerName; })
     .attr("transform", function(d) { return "rotate(-90)";});
-}
 
+  //if input checked, then sort by point value, otherwise alpha order
+  var sortTimeout = setTimeout(function() {
+    change();
+    // d3.select("input").property("checked", true).each(change);
+  }, 2000);
+
+  //sorting point values 
+  function change() {
+
+    players.sort(function(a, b) {
+      return d3.descending(a(d.fantasyPoints), b(d.fantasyPoints));
+    });
+  //   var  x0 = x.domain(PlayerData.sort(this.checked?
+  //     function(a, b) { return b.fantasyPoints - a.fantasyPoints; }
+  //     //sorts by ascending amt of difference between a & b, the larger
+  //     //the diff, the smaller the total.  i.e. b =(10-9=1), a=(10-8=2), 
+  //     //so the larger b, will be left of a 
+  //     : function(a, b) { return d3.ascending(a.playerName, b.playerName); })
+  //     .map(function(d) { return d.playerName; }))
+  //     .copy();
+
+  //   var transition = bar.transition().duration(750),
+  //     delay = function(d, i) { return i * 50; };
+
+  //   transition.selectAll("g")
+  //     .delay(delay)
+  //     .attr("x", function(d) { return x0(d.playerName); });
+
+  //   transition.select
+  }
+
+
+}
 
 
 // var data = [4, 8, 15, 16, 23, 42];
