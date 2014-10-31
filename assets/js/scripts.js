@@ -66,13 +66,30 @@ function main (error, players) {
       }
     });
 
-  //appends text values
+  //appends text number values
   bar.append("text")
     //filter out 0 values
     .filter(function(d) {return (d3.round(y(d.fantasyPoints))) > 0; })
     //size of text will be 1/2 of bar width
-    .attr("x", (width / 12) - 10)
-    .style("text-anchor", "end")
+    .attr("x", function(d) {
+      if (d3.round(y(d.fantasyPoints)) > 0 && d3.round(y(d.fantasyPoints)) > 135) {
+        //returns num inside bar if true...else outside
+        return (width / 12) - 10;
+      } else {
+        return (width / 12) + 10;
+      }
+    })
+    //aligns end of points text with top of bar
+    .style("text-anchor", function(d) {
+      if (d3.round(y(d.fantasyPoints)) > 0 && d3.round(y(d.fantasyPoints)) > 135) {
+        //if >135, end of num will be at border of bar
+        return "end";
+      } else {
+        //if <135, start of num will be at border of bar
+        return "start";
+      }
+    }) 
+      
     //will place text 3 units below end of height so able to see entire text
     .attr("y", function(d,i) { console.log(d); return 20; })
     //dy offset used to center text horizontally
@@ -81,13 +98,28 @@ function main (error, players) {
     .text(function(d,i) { return (d3.round(y(d.fantasyPoints))); })
     .attr("transform", function(d) { return "rotate(-90)";});
 
-  //appends text values
+  //appends text name values
   bar.append("text")
     //filter out 0 values
     .filter(function(d) {return (d3.round(y(d.fantasyPoints))) > 0; })
     //size of text will be 1/2 of bar width
-    .attr("x", (width / 12) - 10)
-    .style("text-anchor", "end")
+    .attr("x", function(d) {
+      if (d3.round(y(d.fantasyPoints)) > 0 && d3.round(y(d.fantasyPoints)) > 135) {
+        //returns name inside bar if true...else outside
+        return (width / 12) - 10;
+      } else {
+        return (width / 12 + 10);
+      }
+    })
+    //aligns end of text with top of bar
+    .style("text-anchor", function(d) {
+      if (d3.round(y(d.fantasyPoints)) > 135 && d3.round(y(d.fantasyPoints)) > 135) {
+        //if >135, end of name at border of bar
+        return "end";
+      } else {
+        return "start";
+      }
+    })
     //will place text 3 units below end of height so able to see entire text
     .attr("y", function(d,i) { return 35; })
     //dy offset used to center text horizontally
