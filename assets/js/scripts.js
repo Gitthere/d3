@@ -133,25 +133,57 @@ function main (error, players) {
     .text(function(d,i) { return d.playerName; })
     .attr("transform", function(d) { return "rotate(-90)";});
 
+  d3.select("input").on("change", change);
+
   //if input checked, then sort by point value, otherwise alpha order
   var sortTimeout = setTimeout(function() {
-    change();
-    // d3.select("input").property("checked", true).each(change);
+    // change();
+    d3.select("input").property("checked", true).each(change);
   }, 2000);
 
   //sorting point values 
   function change() {
+    var x0 = x.domain(players.sort(this.checked
+      ? function(a, b) {return b.fantasyPoints - a.fantasyPoints;}
+      : function(a, b) {return d3.ascending(a.playerName, b.playerName);})
+      .map(function(d) {return d.playerName;})
 
-    players.sort(function(a, b) {
-      return d3.descending(a(d.fantasyPoints), b(d.fantasyPoints));
-    });
-  //   var  x0 = x.domain(PlayerData.sort(this.checked?
-  //     function(a, b) { return b.fantasyPoints - a.fantasyPoints; }
-  //     //sorts by ascending amt of difference between a & b, the larger
-  //     //the diff, the smaller the total.  i.e. b =(10-9=1), a=(10-8=2), 
-  //     //so the larger b, will be left of a 
-  //     : function(a, b) { return d3.ascending(a.playerName, b.playerName); })
-  //     .map(function(d) { return d.playerName; }))
+    )
+    //***************
+    //   var  x0 = x.domain(players.sort(this.checked?
+    //   function(a, b) { return b.fantasyPoints - a.fantasyPoints; }
+    //   //sorts by ascending amt of difference between a & b, the larger
+    //   //the diff, the smaller the total.  i.e. b =(10-9=1), a=(10-8=2), 
+    //   //so the larger b, will be left of a 
+    //   : function(a, b) { return d3.ascending(a.playerName, b.playerName); })
+    //   .map(function(d) { return d.playerName; }))
+    .copy();
+    
+
+    var transition = bar.transition().duration(750),
+      delay = function(d, i) { return i * 50; };
+
+    transition
+      .delay(delay)
+      .attr("transform", function(d, i) {
+        return "translate(" + (d.fantasyPoints) * width + ", " + (height - y(d.fantasyPoints)) + ")";
+      });
+      // with x0(d.fantasyPoints), the bars stacked on each other on the left, now in 
+      // ascending order, but want in descending order  
+    transition.select(".x.axis")
+      .call(bar.append)
+      .selectAll("rect")
+        .delay(delay);
+  //     .delay(delay)
+  //     .attr("x", function(d) { return x0(d.playerName); });
+  //     delay = function(d, i) { return i * 50; };
+    // var  x0 = x.domain(PlayerData.sort(this.checked?
+    //   function(a, b) { return b.fantasyPoints - a.fantasyPoints; }
+    //   //sorts by ascending amt of difference between a & b, the larger
+    //   //the diff, the smaller the total.  i.e. b =(10-9=1), a=(10-8=2), 
+    //   //so the larger b, will be left of a 
+    //   : function(a, b) { return d3.ascending(a.playerName, b.playerName); })
+    //   .map(function(d) { return d.playerName; }))
   //     .copy();
 
   //   var transition = bar.transition().duration(750),
@@ -166,6 +198,10 @@ function main (error, players) {
 
 
 }
+
+
+
+
 
 
 // var data = [4, 8, 15, 16, 23, 42];
